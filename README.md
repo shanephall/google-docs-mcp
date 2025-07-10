@@ -129,6 +129,33 @@ The server is written in TypeScript (`.ts`), but we need to compile it into Java
 
 ### Step 5: First Run & Google Authorization (One Time Only)
 
+### Docker Setup (Optional)
+
+For a more portable and isolated environment, you can run this server using Docker.
+
+1.  **Build the Docker Image:**
+    Navigate to the project root directory in your terminal and run:
+    ```bash
+    docker build -t google-docs-mcp-server .
+    ```
+
+2.  **Run the Docker Container:**
+    You need to mount your `credentials.json` and `token.json` files into the container. Replace `/path/to/your/mcp-googledocs-server` with the actual absolute path to your project directory.
+    ```bash
+    docker run -p 8080:3000 \
+      -v "/path/to/your/mcp-googledocs-server/credentials.json:/app/credentials.json" \
+      -v "/path/to/your/mcp-googledocs-server/token.json:/app/token.json" \
+      google-docs-mcp-server
+    ```
+    This will map port 8080 on your host to port 3000 in the container. The server will then be accessible via `http://localhost:8080`.
+
+    **Note:** The `token.json` file is generated after the first manual run (Step 5). If you haven't run the server manually yet, you'll need to do that first to generate `token.json` before running the Docker container with the mounted volume.
+
+---
+
+### Step 6: Configure Claude Desktop (Optional)
+
+
 Now you need to run the server once manually to grant it permission to access your Google account data. This will create a `token.json` file that saves your permission grant.
 
 1.  In your terminal, run the _compiled_ server using `node`:
